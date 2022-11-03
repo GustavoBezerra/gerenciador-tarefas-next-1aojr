@@ -21,7 +21,7 @@ export default function(requisicao: NextApiRequest, resposta: NextApiResponse<De
         return resposta.status(400).json({error: 'Usuário e senha não conferem'});
     } catch(e : any){
         console.log('Ocorreu erro ao logar usuário:', e);
-        return resposta.status(500).json({error: 'Ocorreu erro ao logar usuário'});
+        return resposta.status(500).json({error: 'Ocorreu erro ao logar usuário, tente novamente...'});
     }
     
 }
