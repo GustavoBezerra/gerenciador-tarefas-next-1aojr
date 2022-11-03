@@ -1,20 +1,36 @@
 import type {NextApiRequest, NextApiResponse} from 'next';
 import { DefaultMessageRespose } from '../../types/DefaultMessageRespose';
+import { User } from '../../types/User';
 
-export default function(requisicao: NextApiRequest, resposta: NextApiResponse<DefaultMessageRespose>){
+export default function(req: NextApiRequest, res: NextApiResponse<DefaultMessageRespose>){
 
     try{
-        if(requisicao.method !== 'POST'){
-            return resposta.status(405).json({error: 'Método informado não existe!'});
+        if(req.method !== 'POST'){
+            return res.status(405).json({error: 'Método informado não existe!'});
         }
     
-        if(!requisicao.body){
-            return resposta.status(400).json({error: 'Favor informar os dados para cadastro'});
+        if(!req.body){
+            return res.status(400).json({error: 'Favor informar os dados para cadastro'});
         }
-        return resposta.status(400).json({error: 'Usuário cadastrado'});
+
+        const user = req.body as User;
+
+        if(!user.name || user.name.length < 2){
+            return res.status(400).json({error: 'Nome não é válido.'});    
+        }
+
+        if(!user.email || user.email.length < 6){
+            return res.status(400).json({error: 'E-mail não é válido.'});    
+        }
+
+        if(!user.password || user.password.length < 6){
+            return res.status(400).json({error: 'Senha não é válida.'});    
+        }
+
+        return res.status(400).json({error: 'Usuário cadastrado'});
     } catch(e : any){
         console.log('Ocorreu erro ao cadastrar usuário:', e);
-        return resposta.status(500).json({error: 'Ocorreu erro ao cadastrar usuário, tente novamente...'});
+        return res.status(500).json({error: 'Ocorreu erro ao cadastrar usuário, tente novamente...'});
     }
     
 }
