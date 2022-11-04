@@ -1,8 +1,9 @@
 import type {NextApiRequest, NextApiResponse} from 'next';
+import { connectToDB } from '../../middlewares/connectToDB';
 import { DefaultMessageRespose } from '../../types/DefaultMessageRespose';
 import { User } from '../../types/User';
 
-export default function(req: NextApiRequest, res: NextApiResponse<DefaultMessageRespose>){
+const endpoint = function(req: NextApiRequest, res: NextApiResponse<DefaultMessageRespose>){
 
     try{
         if(req.method !== 'POST'){
@@ -34,3 +35,5 @@ export default function(req: NextApiRequest, res: NextApiResponse<DefaultMessage
     }
     
 }
+
+export default connectToDB(endpoint);

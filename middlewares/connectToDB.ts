@@ -1,10 +1,10 @@
-import type {NextApiRequest. NextApiResponse, NextApiHandler} from 'next';
+import type {NextApiRequest, NextApiResponse, NextApiHandler} from 'next';
 import mongoose from 'mongoose'
 import { DefaultMessageRespose } from '../types/DefaultMessageRespose';
 
 export const connectToDB = (handler: NextApiHandler) => 
         async (req: NextApiRequest, res: NextApiResponse<DefaultMessageRespose>) => {
-            console.log('Mongo está conectado: ', mongoose.connections[0].readyState === 1 ? 'Conectado' : 'Não conectado');
+            console.log('Mongo está conectado: ', mongoose.connections[0].readyState === 1 ? 'Sim' : 'Não');
             
             if(mongoose.connections[0].readyState){
                 return handler(req, res);
