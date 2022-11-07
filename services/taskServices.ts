@@ -9,7 +9,7 @@ async function findAllTasksByUserId(userId: any) {
 
 async function findTaskById(taskId: any) {
     console.log('Buscando tarefa:', taskId);
-    return await TaskModel.find({_id: taskId});
+    return await TaskModel.findById({_id: taskId});
 }
 
 async function saveTask(task: Task) {
