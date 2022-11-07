@@ -3,7 +3,8 @@ import { connectToDB } from '../../middlewares/connectToDB';
 import { jwtValidator } from '../../middlewares/jwtValidator';
 import { TaskModel } from '../../models/Task';
 import { DefaultMessageRespose } from '../../types/DefaultMessageRespose';
-import { Task } from '../../types/User copy';
+import { Task } from '../../types/Task';
+import { findAllTasksByUserId, saveTask } from '../../services/taskServices';
 
 const endpoint = async (req: NextApiRequest, res: NextApiResponse<DefaultMessageRespose | any>) => {
 
@@ -11,7 +12,7 @@ const endpoint = async (req: NextApiRequest, res: NextApiResponse<DefaultMessage
         if(req.method === 'GET'){
             return getTasks(req, res);
         } else if(req.method === 'POST'){
-            return saveTask(req, res);
+            return createTask(req, res);
         }
         
     } catch(e : any){
@@ -22,12 +23,12 @@ const endpoint = async (req: NextApiRequest, res: NextApiResponse<DefaultMessage
 }
 
 const getTasks = async(req: NextApiRequest, res: NextApiResponse<DefaultMessageRespose | any>) => {
-    const tasks = await TaskModel.find({userId: req.query.userId});
+    const tasks = await findAllTasksByUserId(req.query.userId);
        
     return res.status(200).json({tasks});
 }
 
-const saveTask = async(req: NextApiRequest, res: NextApiResponse<DefaultMessageRespose | any>) => {
+const createTask = async(req: NextApiRequest, res: NextApiResponse<DefaultMessageRespose | any>) => {
     if(!req.body){
         return res.status(400).json({error: 'Favor informar os dados para cadastro'});
     }
@@ -46,7 +47,7 @@ const saveTask = async(req: NextApiRequest, res: NextApiResponse<DefaultMessageR
         return res.status(400).json({error: 'Data de previsão não é válida.'});    
     }
     
-    await TaskModel.create(task);
+    await saveTask(task);
        
     return res.status(200).json({msg: 'Tarefa cadastrada com sucesso!'});
 }
