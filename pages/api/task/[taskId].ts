@@ -2,7 +2,7 @@ import type {NextApiRequest, NextApiResponse} from 'next';
 import { connectToDB } from '../../../middlewares/connectToDB';
 import { jwtValidator } from '../../../middlewares/jwtValidator';
 import { DefaultMessageRespose } from '../../../types/DefaultMessageRespose';
-import { findTaskById } from '../../../services/taskServices';
+import { findTaskById, deleteTask } from '../../../services/taskServices';
 import { Task } from '../../../types/Task';
 
 
@@ -12,7 +12,7 @@ const endpoint = async (req: NextApiRequest, res: NextApiResponse<DefaultMessage
         if(req.method === 'GET'){
             return getById(req, res);
         } else if(req.method === 'DELETE'){
-            return deleteTask(req, res);
+            return removeTask(req, res);
         }
         
     } catch(e : any){
@@ -34,9 +34,14 @@ const getById = async(req: NextApiRequest, res: NextApiResponse<DefaultMessageRe
     return res.status(200).json({});
 }
 
-const deleteTask = async(req: NextApiRequest, res: NextApiResponse<DefaultMessageRespose>) => {
+const removeTask = async(req: NextApiRequest, res: NextApiResponse<DefaultMessageRespose>) => {
     console.log(req.query.taskId);
-    return res.status(200).json({msg: "Ok"});
+    const retorno = await deleteTask(req.query.taskId);
+
+    if(retorno.deletedCount !== 0){
+        return res.status(200).json({msg: "Exclusão efetuada com sucesso."});
+    }
+    return res.status(400).json({error: "Não foi encontrada nenhuma tarefa com o ID informado."});
 }
 
 export default connectToDB(jwtValidator(endpoint));

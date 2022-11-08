@@ -17,4 +17,9 @@ async function saveTask(task: Task) {
     return await TaskModel.create(task);
 }
 
-export { findAllTasksByUserId, findTaskById, saveTask };
+async function deleteTask(taskId: any){
+    console.log('Excluindo task com ID', taskId);
+    return await TaskModel.remove({_id: taskId});
+}
+
+export { findAllTasksByUserId, findTaskById, saveTask, deleteTask };
