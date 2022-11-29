@@ -1,11 +1,13 @@
 import type {NextApiRequest, NextApiResponse} from 'next';
+import { connectToDB } from '../../middlewares/connectToDB';
+import { jwtValidator } from '../../middlewares/jwtValidator';
 import { UserModel } from '../../models/User';
 import { DefaultMessageRespose } from '../../types/DefaultMessageRespose';
 import { User } from '../../types/User';
 import CryptoJS from "crypto-js";
 import jwt from 'jsonwebtoken';
 
-export default async function(requisicao: NextApiRequest, resposta: NextApiResponse<DefaultMessageRespose | any>){
+const login = async function(requisicao: NextApiRequest, resposta: NextApiResponse<DefaultMessageRespose | any>){
 
     try{
         if(requisicao.method !== 'POST'){
@@ -57,3 +59,5 @@ export default async function(requisicao: NextApiRequest, resposta: NextApiRespo
     }
     
 }
+
+export default connectToDB(login);
