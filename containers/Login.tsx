@@ -10,11 +10,8 @@ export const Login: NextPage<LoginProps> = ({setToken}) => {
 
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
-    const [name, setName] = useState('');
     const [error, setError] = useState('');
-    const [success, setSuccess] = useState('Cadastro efetuado com sucesso! Por favor, efetue o login.');
     const [loading, setLoading] = useState(false);
-    const [cadastro, setCadastro] = useState(false);
 
     const doLogin = async () => {
         try{
@@ -51,110 +48,27 @@ export const Login: NextPage<LoginProps> = ({setToken}) => {
         setLoading(false);
     }
 
-    const doSignup = async () => {
-        try{
-            setError('');
-            if(!login || !password || !name){
-                setError('Favor preencher os campos!');
-                return
-            }
-
-            setLoading(true);
-
-            const email = login;
-
-            const body = {
-                name,
-                email,
-                password
-            };
-
-            const result = await executeRequest('user', 'post', body);
-            if(result){
-                setCadastro(false);
-                setSuccess('Cadastro efetuado com sucesso! Por favor, efetue o login.');
-            }
-        }catch(e : any){
-            console.log(`Erro ao efetuar cadastro: ${e}`);
-            if(e?.response?.data?.error){
-                setError(e.response.data.error);
-            }else{
-                setError(`Erro ao efetuar cadastro, tente novamente.`);
-            }
-        }
-
-        setLoading(false);
-    }
-
-    const signup = async() => {
-        setCadastro(true);
-    }
-
-    const backTologin = async() => {
-        setCadastro(false);
-    }
-
     return (
         <div className="container-login">
             <img src="/logo.svg" alt="Logo Fiap" className="logo" />
             <div className="form">
                 {error && <p className="error">{error}</p>}
-                {success && <p className="success">{success}</p>}
-                {!cadastro &&
-                    <div>
-                        <div className="input">
-                            <img src="/mail.svg" alt="Login Icone" />
-                            <input type='text' placeholder="Login"
-                                value={login}
-                                onChange={evento => setLogin(evento.target.value)}
-                            />
-                        </div>
-                        <div className="input">
-                            <img src="/lock.svg" alt="Senha Icone" />
-                            <input type='password' placeholder="Senha"
-                                value={password}
-                                onChange={evento => setPassword(evento.target.value)}
-                            />
-                        </div>
-                        <button onClick={doLogin} disabled={loading}>{loading ? '...Carregando': 'Login'}</button>
-                        <div className="signup">
-                            <span>Não possui conta?</span> <a onClick={signup}>Crie aqui</a>
-                        </div>
-                    </div>
-                }
-                {cadastro &&
-                    <div>
-                        <div className="input">
-                            <img src="/user.svg" alt="Nome" />
-                            <input type='text' placeholder="Nome"
-                                value={name}
-                                onChange={evento => setName(evento.target.value)}
-                            />
-                        </div>
-                        <div className="input">
-                            <img src="/mail.svg" alt="Login Icone" />
-                            <input type='text' placeholder="Login"
-                                value={login}
-                                onChange={evento => setLogin(evento.target.value)}
-                            />
-                        </div>
-                        <div className="input">
-                            <img src="/lock.svg" alt="Senha Icone" />
-                            <input type='password' placeholder="Senha"
-                                value={password}
-                                onChange={evento => setPassword(evento.target.value)}
-                            />
-                        </div>
-                        <button onClick={doSignup} disabled={loading}>{loading ? '...Carregando': 'Cadastrar'}</button>
-                        <div className="signup">
-                            <a onClick={backTologin}>Voltar</a>
-                        </div>
-                    </div>
-                }
+                <div className="input">
+                    <img src="/mail.svg" alt="Login Icone" />
+                    <input type='text' placeholder="Login"
+                        value={login}
+                        onChange={evento => setLogin(evento.target.value)}
+                    />
+                </div>
+                <div className="input">
+                    <img src="/lock.svg" alt="Senha Icone" />
+                    <input type='password' placeholder="Senha"
+                        value={password}
+                        onChange={evento => setPassword(evento.target.value)}
+                    />
+                </div>
+                <button onClick={doLogin} disabled={loading}>{loading ? '...Carregando': 'Login'}</button>
             </div>
-            
-            
-            
         </div>
     );
 }

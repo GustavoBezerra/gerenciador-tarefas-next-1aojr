@@ -22,8 +22,6 @@ const endpoint = async (req: NextApiRequest, res: NextApiResponse<DefaultMessage
 
         const user = req.body as User;
 
-        console.log(user);
-
         if(!user.name || user.name.length < 2){
             return res.status(400).json({ error: 'Nome não é válido' });
         }
