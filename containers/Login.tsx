@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import { useState } from "react";
 import { executeRequest } from "../services/api";
+import { Modal } from "react-bootstrap";
 
 type LoginProps = {
     setToken(s: string): void
@@ -15,6 +16,7 @@ export const Login: NextPage<LoginProps> = ({setToken}) => {
     const [success, setSuccess] = useState('');
     const [loading, setLoading] = useState(false);
     const [cadastro, setCadastro] = useState(false);
+    const [showModal, setShowModal] = useState(true);
 
     const doLogin = async () => {
         try{
@@ -71,9 +73,7 @@ export const Login: NextPage<LoginProps> = ({setToken}) => {
 
             const result = await executeRequest('user', 'post', body);
             if(result){
-                clearValues();
-                setCadastro(false);
-                setSuccess('Cadastro efetuado com sucesso! Por favor, efetue o login.');
+                setShowModal(true);
             }
         }catch(e : any){
             console.log(`Erro ao efetuar cadastro: ${e}`);
@@ -85,6 +85,12 @@ export const Login: NextPage<LoginProps> = ({setToken}) => {
         }
 
         setLoading(false);
+    }
+
+    const closeModal = () => {
+        setShowModal(false);
+        clearValues();
+        setCadastro(false);
     }
 
     const signup = async() => {
@@ -160,6 +166,17 @@ export const Login: NextPage<LoginProps> = ({setToken}) => {
                          </div>
                      </div>
                  }
+                 <Modal show={showModal} className="container-modal">
+                    <Modal.Body>
+                        <p>Cadastro concluído</p>
+                        <span>Seu cadastro foi feito com sucesso! Por favor, efetue o login.</span>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <div className="button button-close col-12">
+                            <button onClick={closeModal}>Fechar</button>
+                        </div>
+                    </Modal.Footer>
+                </Modal>
             </div>
         </div>
     );

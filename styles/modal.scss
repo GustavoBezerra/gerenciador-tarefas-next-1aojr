@@ -18,7 +18,6 @@
                 width: 40%;
                 height: 50px;
                 background-color: $primaryColor;
-                background-color: $primaryColor;
                 border: none;
                 outline: none;
                 color: white;
@@ -77,6 +76,12 @@
                     &:hover {
                         background-color: $primaryColor;
                     }
+                }
+            }
+
+            .button-close {
+                button {
+                    background-color: $primaryColor;
                 }
             }
         }
