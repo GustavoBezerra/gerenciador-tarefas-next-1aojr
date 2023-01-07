@@ -20,6 +20,7 @@ export const Home: NextPage<HomeProps> = ({ setToken }) => {
 
     // STATES DO MODAL
     const [showModal, setShowModal] = useState(false);
+    const [dateType, setDateType] = useState('text');
     const [loading, setLoading] = useState(false);
     const [errorMsg, setErrorMsg] = useState('');
     const [name, setName] = useState('');
@@ -93,6 +94,18 @@ export const Home: NextPage<HomeProps> = ({ setToken }) => {
         setLoading(false);
     }
 
+    const changeDateType = async () => {
+        console.log(`Iniciando alteração. Origem: ${dateType}`);
+        if(dateType === 'text'){
+            console.log('Alterando para date');
+            setDateType('date');
+        } else{
+            console.log('Alterando para text');
+            setDateType('text');
+        }
+        
+    }
+
     return (<>
         <Header sair={sair} showModal={() => setShowModal(true)} />
         <Filter
@@ -113,7 +126,10 @@ export const Home: NextPage<HomeProps> = ({ setToken }) => {
                 {errorMsg && <p className="error">{errorMsg}</p>}
                 <input type='text' placeholder="Nome da tarefa"
                     value={name} onChange={e => setName(e.target.value)} />
-                <input type='date' placeholder="Previsão da tarefa"
+                <input type={dateType}
+                            placeholder='Data de previsão'
+                            onBlur={() => changeDateType()}
+                            onFocus={() => changeDateType()}
                     value={finishPrevisionDate} onChange={e => setFinishPrevisionDate(e.target.value)} />
             </Modal.Body>
             <Modal.Footer>
