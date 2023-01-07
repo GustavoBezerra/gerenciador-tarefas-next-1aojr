@@ -4,6 +4,8 @@ type HeaderProps = {
     sair(): void
 }
 export const Header : NextPage<HeaderProps> = ({sair}) => {
+
+    const name = localStorage.getItem("name");
     return (
         <div className="container-header">
             <img src="/logo.svg" alt="Logo Fiap" className="logo"/>
@@ -13,7 +15,7 @@ export const Header : NextPage<HeaderProps> = ({sair}) => {
                 <img src="/exit-mobile.svg" alt="Sair" onClick={sair}/>
             </div>
             <div className="desktop">
-                <span>Olá, </span>
+                <span>Olá, {name}</span>
                 <img src="/exit-desktop.svg" alt="Sair" onClick={sair}/>
             </div>
         </div>
