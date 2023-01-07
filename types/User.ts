@@ -1,8 +1,6 @@
-import internal from "stream"
-
 export type User = {
-    id: string | undefined,
+    _id: string | undefined,
     name: string,
-    email: string, 
+    email: string,
     password: string
 }

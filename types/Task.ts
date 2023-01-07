@@ -1,9 +1,7 @@
-import internal from "stream"
-
 export type Task = {
-    id: string | undefined,
+    _id: string | undefined,
     userId: string,
     name: string,
-    finishPrevisionDate: string, 
+    finishPrevisionDate: string,
     finishDate: string
 }
