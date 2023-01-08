@@ -21,6 +21,7 @@ export const List: NextPage<ListProps> = ({ tasks, getFilteredData }) => {
     const [name, setName] = useState('');
     const [finishPrevisionDate, setFinishPrevisionDate] = useState('');
     const [finishDate, setFinishDate] = useState('');
+    const [dateType, setDateType] = useState('text');
 
     const closeModal = () => {
         setShowModal(false);
@@ -94,6 +95,16 @@ export const List: NextPage<ListProps> = ({ tasks, getFilteredData }) => {
         }
     }
 
+    const changeDateType = async () => {
+        console.log(`Alterando type. Type atual: ${dateType}`);
+        if(dateType === 'text'){
+            setDateType('date')    
+        } else {
+            setDateType('text')
+        }
+        
+    }
+
     return (
         <>
             <div className={"container-list" + (tasks && tasks.length > 0 ? ' not-empty' : '')}>
@@ -116,9 +127,15 @@ export const List: NextPage<ListProps> = ({ tasks, getFilteredData }) => {
                     {errorMsg && <p className="error">{errorMsg}</p>}
                     <input type='text' placeholder="Nome da tarefa"
                         value={name} onChange={e => setName(e.target.value)} />
-                    <input type='date' placeholder="Previsão da tarefa"
+                    <input type={dateType}
+                            placeholder='Data de previsão'
+                            onBlur={() => changeDateType()}
+                            onFocus={() => changeDateType()}
                         value={finishPrevisionDate} onChange={e => setFinishPrevisionDate(e.target.value)} />
-                    <input type='date' placeholder="Conclusão da tarefa"
+                    <input type={dateType}
+                            placeholder='Data de conclusão'
+                            onBlur={() => changeDateType()}
+                            onFocus={() => changeDateType()}
                         value={finishDate} onChange={e => setFinishDate(e.target.value)} />
                 </Modal.Body>
                 <Modal.Footer>
