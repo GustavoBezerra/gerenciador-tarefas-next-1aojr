@@ -96,7 +96,6 @@ export const List: NextPage<ListProps> = ({ tasks, getFilteredData }) => {
     }
 
     const changeDateType = async () => {
-        console.log(`Alterando type. Type atual: ${dateType}`);
         if(dateType === 'text'){
             setDateType('date')    
         } else {
